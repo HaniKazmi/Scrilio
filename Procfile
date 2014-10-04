@@ -1,1 +1,1 @@
-bundle exec ruby sms-quickstart.rb
+web: bundle exec ruby sms-quickstart.rb

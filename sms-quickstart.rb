@@ -1,17 +1,22 @@
 require 'rubygems'
 require 'twilio-ruby'
 require 'sinatra'
- 
+require 'httparty'
+
 get '/sms-quickstart' do
-  sender = params[:From]
-  friends = {
-    "+14153334444" => "Curious George",
-    "+14158157775" => "Boots",
-    "+14155551234" => "Virgil"
-  }
-  name = friends[sender] || "Mobile Monkey"
+  sender = params[:Body]
+  p sender
+  response = HTTParty.get("http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=#{sender}&redirects")
+  p response
+  d = JSON.parse(response.body).deep_find("extract")
   twiml = Twilio::TwiML::Response.new do |r|
-    r.Message "Hello, #{name}. Thanks for the message."
+    r.Message "#{d}"
   end
   twiml.text
+end
+
+class Hash
+  def deep_find(key)
+    key?(key) ? self[key] : self.values.inject(nil) {|memo, v| memo ||= v.deep_find(key) if v.respond_to?(:deep_find) }
+  end
 end

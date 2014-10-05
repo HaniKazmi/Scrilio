@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'twilio-ruby'
 require 'sinatra'
-require 'HTTParty'
+require 'httparty'
 
 post '/sms-quickstart' do
   sender = params[:Body]

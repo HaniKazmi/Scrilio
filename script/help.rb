@@ -1,3 +1,3 @@
 def list
-  "w (text) : display wikipedia article"
+  "WHy does this work?"
 end

@@ -16,12 +16,8 @@ get '/sms' do
 end
 
 def matcher sender
-  case sender[0].downcase
-  when 'w'
-    wikipedia sender.drop(1).join(' ')
-  else
-    wikipedia sender.join(' ')
-  end
+  l = sender[0].downcase
+  send(l, sender)
 end
 
 class Hash

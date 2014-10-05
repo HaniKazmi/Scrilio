@@ -4,11 +4,14 @@ require 'sinatra'
 require 'httparty'
 
 get '/sms' do
-  sender = params[:Body].split(" ")
-  twiml = Twilio::TwiML::Response.new do |r|
-    r.Message matcher sender
+  begin
+    sender = params[:Body].split(" ")
+    twiml = Twilio::TwiML::Response.new do |r|
+      r.Message matcher sender
+    end
+    twiml.text
+  rescue
   end
-  twiml.text
 end
 
 def matcher sender

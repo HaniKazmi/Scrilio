@@ -20,10 +20,6 @@ def matcher sender
   send(l, sender.drop(1).join(' '))
 end
 
-def method_missing(meth, *args, &block)
-  send('w', *args.drop(1).join(' '))
-end
-
 class Hash
   def deep_find(key)
     key?(key) ? self[key] : self.values.inject(nil) {|memo, v| memo ||= v.deep_find(key) if v.respond_to?(:deep_find) }

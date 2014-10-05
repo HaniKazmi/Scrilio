@@ -2,6 +2,7 @@ require 'rubygems'
 require 'twilio-ruby'
 require 'sinatra'
 require 'httparty'
+Dir[File.dirname(__FILE__) + '/script/*.rb'].each {|file| require file }
 
 get '/sms' do
   begin
@@ -20,16 +21,6 @@ def matcher sender
     wikipedia sender.drop(1).join(' ')
   else
     wikipedia sender.join(' ')
-  end
-end
-
-def wikipedia sender
-  begin
-    response = HTTParty.get(URI.encode("http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=#{sender}&redirects"))
-    d = JSON.parse(response.body).deep_find("extract")
-    d.gsub(/<\/?..?>/, '')
-  rescue
-    "#{sender} not found"
   end
 end
 

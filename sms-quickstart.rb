@@ -5,7 +5,10 @@ require 'httparty'
 
 get '/sms-quickstart' do
   sender = params[:Body].split(" ")
-  if sender[0] == 'w'
+  case sender[0].downcase
+  when 'w'
+    wikipedia sender.drop(1).join(' ')
+  else
     wikipedia sender.drop(1).join(' ')
   end
 end

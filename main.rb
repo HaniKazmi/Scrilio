@@ -17,7 +17,7 @@ end
 
 def matcher sender
   l = sender[0].downcase
-  send(l, sender)
+  send(l, sender.drop(1).join(' '))
 end
 
 class Hash

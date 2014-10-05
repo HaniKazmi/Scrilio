@@ -4,11 +4,15 @@ require 'sinatra'
 require 'httparty'
 
 get '/sms-quickstart' do
-  sender = params[:Body]
-  p sender
+  sender = params[:Body].split(" ")
+  if sender[0] == 'w'
+    wikipedia sender.drop(1).join(' ')
+  end
+end
+
+def wikipedia sender
   begin
     response = HTTParty.get(URI.encode("http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=#{sender}&redirects"))
-    p response
     d = JSON.parse(response.body).deep_find("extract")
     twiml = Twilio::TwiML::Response.new do |r|
       r.Message "#{d.gsub(/<\/?..?>/, '')}"

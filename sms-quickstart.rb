@@ -20,6 +20,7 @@ def wikipedia sender
     twiml = Twilio::TwiML::Response.new do |r|
       r.Message "#{d.gsub(/<\/?..?>/, '')}"
     end
+    p twiml.Message
     twiml.text
   rescue
     twiml = Twilio::TwiML::Response.new do |r|

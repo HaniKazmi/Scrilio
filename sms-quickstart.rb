@@ -5,7 +5,7 @@ require 'httparty'
 
 post '/sms-quickstart' do
   sender = params[:Body]
-  response = HTTParty.get('http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=#{sender}&redirects')
+  response = HTTParty.get("'http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=#{sender}&redirects")
   d = JSON.parse(response.body).deep_find("extract")
   twiml = Twilio::TwiML::Response.new do |r|
     r.Message d

@@ -6,13 +6,19 @@ require 'httparty'
 get '/sms-quickstart' do
   sender = params[:Body]
   p sender
-  response = HTTParty.get(URI.encode("http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=#{sender}&redirects"))
-  p response
-  d = JSON.parse(response.body).deep_find("extract")
-  twiml = Twilio::TwiML::Response.new do |r|
-    r.Message "#{d.gsub(/<\/?.>/, '')}"
+  begin
+    response = HTTParty.get(URI.encode("http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=#{sender}&redirects"))
+    p response
+    d = JSON.parse(response.body).deep_find("extract")
+    twiml = Twilio::TwiML::Response.new do |r|
+      r.Message "#{d.gsub(/<\/?.>/, '')}"
+    end
+    twiml.text
+  rescue
+     twiml = Twilio::TwiML::Response.new do |r|
+      r.Message "#{sender} not found"
+    end
   end
-  twiml.text
 end
 
 class Hash

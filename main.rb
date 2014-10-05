@@ -13,5 +13,9 @@ get '/sms' do
 end
 
 def matcher sender
-  send(sender[0].downcase, sender.drop(1).join(' '))
+  begin
+    send(sender[0].downcase, sender.drop(1).join(' '))
+  rescue
+    "#{sender.drop(1).join(' ')} not found"
+  end
 end

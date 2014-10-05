@@ -10,7 +10,7 @@ get '/sms-quickstart' do
   p response
   d = JSON.parse(response.body).deep_find("extract")
   twiml = Twilio::TwiML::Response.new do |r|
-    r.Message "#{d}"
+    r.Message "#{d}.gsub(/<\/?.>/, "")
   end
   twiml.text
 end

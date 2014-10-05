@@ -3,7 +3,7 @@ require 'twilio-ruby'
 require 'sinatra'
 require 'httparty'
 
-post '/sms-quickstart' do
+get '/sms-quickstart' do
   sender = params[:Body]
   p sender
   response = HTTParty.get("http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=#{sender}&redirects")

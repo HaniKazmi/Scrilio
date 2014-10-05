@@ -9,7 +9,7 @@ get '/sms-quickstart' do
   when 'w'
     wikipedia sender.drop(1).join(' ')
   else
-    wikipedia sender.drop(1).join(' ')
+    wikipedia sender.join(' ')
   end
 end
 

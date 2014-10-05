@@ -3,8 +3,15 @@ require 'twilio-ruby'
 require 'sinatra'
 require 'httparty'
 
-get '/sms-quickstart' do
+get '/sms' do
   sender = params[:Body].split(" ")
+  twiml = Twilio::TwiML::Response.new do |r|
+    r.Message matcher sender
+  end
+  twiml.text
+end
+
+def matcher sender
   case sender[0].downcase
   when 'w'
     wikipedia sender.drop(1).join(' ')
@@ -17,16 +24,9 @@ def wikipedia sender
   begin
     response = HTTParty.get(URI.encode("http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=#{sender}&redirects"))
     d = JSON.parse(response.body).deep_find("extract")
-    twiml = Twilio::TwiML::Response.new do |r|
-      r.Message "#{d.gsub(/<\/?..?>/, '')}"
-    end
-    p d.gsub(/<\/?..?>/, '')
-    twiml.text
+    d.gsub(/<\/?..?>/, '')
   rescue
-    twiml = Twilio::TwiML::Response.new do |r|
-      r.Message "#{sender} not found"
-    end
-    twiml.text
+    "#{sender} not found"
   end
 end
 

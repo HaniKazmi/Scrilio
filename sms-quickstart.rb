@@ -15,7 +15,7 @@ get '/sms-quickstart' do
     end
     twiml.text
   rescue
-     twiml = Twilio::TwiML::Response.new do |r|
+    twiml = Twilio::TwiML::Response.new do |r|
       r.Message "#{sender} not found"
     end
   end

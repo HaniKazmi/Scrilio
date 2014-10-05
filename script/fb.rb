@@ -1,7 +1,7 @@
 def fb text
   begin
     if text.downcase=="live"
-      response = HTTParty.get(URI.encode("http://football-api.com/api/?Action=today&APIKey=b89a5775-dcb4-a4d4-2ca9a2c98316&comp_id=1204")
+      response = HTTParty.get(URI.encode("http://football-api.com/api/?Action=today&APIKey=b89a5775-dcb4-a4d4-2ca9a2c98316&comp_id=1204"))
       s = JSON.parse(response.body)
       p s
       "#{s["match_ht_score"]}"
